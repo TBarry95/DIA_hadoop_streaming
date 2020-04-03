@@ -1,33 +1,21 @@
 # pip install tweepy
 # pip install alpha_vantage
 # pip install quandl
+# pip install wordcloud
 
-from alpha_vantage.timeseries import TimeSeries
-import alpha_vantage
 import tweepy
 import csv
 import json
-import quandl
+# import quandl
 import pandas as pd
-import json
-from pymongo import MongoClient
 import re
-# pip install wordcloud
 from wordcloud import WordCloud
-from sklearn.feature_extraction.text import CountVectorizer
+#from sklearn.feature_extraction.text import CountVectorizer
 import numpy as np
 from textblob import TextBlob
 from textblob.sentiments import NaiveBayesAnalyzer
 import twitter_module as twt
-from sklearn.decomposition import LatentDirichletAllocation as LDA
-from sklearn.feature_extraction.text import CountVectorizer
-#%%time
-from pyLDAvis import sklearn as sklearn_lda
-from sklearn.cluster import KMeans
-import pickle
-import pyLDAvis
 import os
-
 
 # # # # # # # # # # # # #
 # Extract:

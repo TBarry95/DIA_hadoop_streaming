@@ -1,6 +1,8 @@
 #!/usr/bin/python
 
-# DES: Reducer script to find average sentiment for any given day.
+# DES: Reducer script to find summary statistics for sentiment analysis scores
+#      finds mean, median, max, min, standard deviation for each date.
+
 # BY:  Tiernan Barry, x19141840 - NCI.
 
 # 1. Libraries:
@@ -8,6 +10,7 @@ from operator import itemgetter
 import sys
 from sortedcontainers import SortedList
 import statistics as stats
+import csv
 
 # 2. reduce key,values by date and find median score per date:
 last_date_key = None
@@ -15,11 +18,17 @@ sent_list_sort = SortedList()
 count_per_date = 0
 aggregate_sentiment = 0
 
-print("DATE", "MEAN", "STND_DEV", "MEDIAN", "MIN", "MAX", "COUNT")
-for sentiment in sys.stdin:
+#print("DATE", "MEAN", "STND_DEV", "MEDIAN", "MIN", "MAX", "COUNT")
+print("DATE, MEAN, STND_DEV, MEDIAN, MIN, MAX, COUNT")
+'''for sentiment in sys.stdin:
     sentiment = sentiment.strip()  # if whitespace - removes
     this_date_key, sentiment_value = sentiment.split()  # splits mapper by tab escaped
-    sentiment_value = float(sentiment_value)
+    sentiment_value = float(sentiment_value)'''
+
+for key_value in csv.reader(sys.stdin):
+    this_date_key = key_value[0]
+    source = key_value[1]
+    sentiment_value = float(key_value[2])
 
     if last_date_key == this_date_key:
         count_per_date += 1
@@ -28,7 +37,8 @@ for sentiment in sys.stdin:
 
     else:
         if last_date_key:
-            print(('%s\t%s\t%s\t%s\t%s\t%s\t%s') % (last_date_key,
+            print(('%s,%s,%s,%s,%s,%s,%s,%s') % (last_date_key,
+                                                    source,
                                             aggregate_sentiment / count_per_date, # avg
                                             stats.stdev(sent_list_sort), # stnd dev
                                             sent_list_sort[int(len(sent_list_sort)/2)], # median
@@ -41,7 +51,8 @@ for sentiment in sys.stdin:
 
 # -- Output the least popular / min count sentiment sentiment
 if last_date_key == this_date_key:
-    print(('%s\t%s\t%s\t%s\t%s\t%s\t%s') % (last_date_key,
+    print(('%s,%s,%s,%s,%s,%s,%s,%s') % (last_date_key,
+                                                source,
                                     aggregate_sentiment / count_per_date,  # avg
                                     stats.stdev(sent_list_sort),  # stnd dev
                                     sent_list_sort[int(len(sent_list_sort) / 2)],  # median
