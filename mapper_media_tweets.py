@@ -15,8 +15,6 @@ for line in csv.reader(sys.stdin): # line = row of data points
         processed_txt = line[14]
         blob = TextBlob(processed_txt)
         sentiment = blob.sentiment.polarity
-        #rest_of_data = [line[0],line[2:14], value] #,line[3],line[4],line[5],line[6],line[7],line[8],line[9],line[10],line[11],line[12],line[13],line[14]]
-        #value = [line[0],line[2],line[3],line[4],line[5],line[6],line[7],line[8],line[9],line[10],line[11],line[12],line[13],line[14], sentiment]
         value = sentiment
         source = "MEDIA"
         print(('%s,%s,%s') % (key, source, value))

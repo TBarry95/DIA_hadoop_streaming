@@ -33,8 +33,9 @@ del trump_tweets['DATE']
 msno.matrix(media_tweets, figsize= (50,30))
 msno.matrix(trump_tweets, figsize= (50,30))
 
-# -- Make new column for processed name:
+# -- Make new column for processed name nad hashtags where possible:
 media_tweets['PROCESSED_TEXT'] = media_tweets['FULL_TEXT'].map(lambda i: re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)|(RT)", '', i))
+media_tweets['PROCESSED_HASHTAG'] = media_tweets['HASHTAGS'].map(lambda i: re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)|(RT)|(text)|(indices)|[0-9]+", '', i))
 trump_tweets['PROCESSED_TEXT'] = trump_tweets['TEXT'].map(lambda i: re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)|(RT)", '', str(i)))
 
 # -- Write out test set and full set without headers:
@@ -45,6 +46,7 @@ media_tweets.to_csv("/home/tiernan/PycharmProjects/DIA/twitter_media_prod.csv", 
 trump_tweets[30000:31000].to_csv("/home/tiernan/PycharmProjects/DIA/trump_sample.csv", index= False, header=None)
 trump_tweets.to_csv("/home/tiernan/PycharmProjects/DIA/trump_prod.csv", index= False, header=None)
 
-# -- Check for formatting using word cloud:
-#word_cloud = fns.get_wordcloud(media_tweets, "/home/tiernan/PycharmProjects/DIA/twitter_media_wordcloud.png")
+media_tweets1 = media_tweets
 
+media_tweets1.sort_values(by=['SOURCE'])
+media_tweets1['SOURCE']

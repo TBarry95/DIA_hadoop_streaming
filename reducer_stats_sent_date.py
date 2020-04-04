@@ -12,14 +12,14 @@ from sortedcontainers import SortedList
 import statistics as stats
 import csv
 
-# 2. reduce key,values by date and find median score per date:
+# 2. reduce key,values by date and find stats per date:
 last_date_key = None
 sent_list_sort = SortedList()
 count_per_date = 0
 aggregate_sentiment = 0
 
 #print("DATE", "MEAN", "STND_DEV", "MEDIAN", "MIN", "MAX", "COUNT")
-print("DATE, MEAN, STND_DEV, MEDIAN, MIN, MAX, COUNT")
+print("DATE, SOURCE, MEAN, STND_DEV, MEDIAN, MIN, MAX, COUNT")
 '''for sentiment in sys.stdin:
     sentiment = sentiment.strip()  # if whitespace - removes
     this_date_key, sentiment_value = sentiment.split()  # splits mapper by tab escaped
@@ -49,7 +49,7 @@ for key_value in csv.reader(sys.stdin):
         last_date_key = this_date_key
         count_per_date = 1
 
-# -- Output the least popular / min count sentiment sentiment
+# -- Output summary stats:
 if last_date_key == this_date_key:
     print(('%s,%s,%s,%s,%s,%s,%s,%s') % (last_date_key,
                                                 source,
