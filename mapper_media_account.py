@@ -40,6 +40,5 @@ df['sentiment'] = sentiment
 
 # sort DF by media account:
 df = df.sort_values(by=['source'])
-
 # sort DF by media account:
-print(df.to_csv(sep=',', index=False))
+print(df.to_csv(sep=',', index=False, header=None))
