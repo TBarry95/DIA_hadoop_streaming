@@ -36,6 +36,10 @@ MANIFEST
 *.spec
 *.csv
 *.png
+*.pem
+part-00000
+*.json
+*.csv#
 
 # Installer logs
 pip-log.txt
