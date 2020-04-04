@@ -1,8 +1,10 @@
 #!/usr/bin/python
 
-# DES: Mapper script which reads in a list of tweets, and applies a sentiment score for each tweet.
-#      Returns key value pair of sentiment score and
+# DES: Mapper script which reads twitter data, and applies a sentiment score for each tweet.
+#      Returns key value pair of data + sentiment score per tweet. No data is loss in this process.
+#      Key = Account, Value = Data + sentiment
 # BY:  Tiernan Barry, x19141840 - NCI.
+
 
 # 1. Libraries:
 import sys

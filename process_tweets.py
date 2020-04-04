@@ -17,13 +17,13 @@ media_tweets = pd.read_csv("/home/tiernan/PycharmProjects/DIA/twitter_mass_media
 # -- Read in Trump tweets:
 #trump_tweets = pd.read_csv("/home/tiernan/PycharmProjects/DIA/trump_tweets.csv")
 
-with open("/home/tiernan/PycharmProjects/DIA/trump_tweets.json") as tweets:
+'''with open("/home/tiernan/PycharmProjects/DIA/trump_tweets.json") as tweets:
     data = json.load(tweets)
 trump_tweets = fns.get_json_data_to_df(data)
 
 # format date:
 trump_tweets['DATE_TIME'] = fns.tweet_date_format(trump_tweets)
-del trump_tweets['DATE']
+del trump_tweets['DATE']'''
 
 ##########################################################################
 # Transform:
@@ -45,8 +45,3 @@ media_tweets.to_csv("/home/tiernan/PycharmProjects/DIA/twitter_media_prod.csv", 
 # -- Write out test set and full set without headers:
 trump_tweets[30000:31000].to_csv("/home/tiernan/PycharmProjects/DIA/trump_sample.csv", index= False, header=None)
 trump_tweets.to_csv("/home/tiernan/PycharmProjects/DIA/trump_prod.csv", index= False, header=None)
-
-media_tweets1 = media_tweets
-
-media_tweets1.sort_values(by=['SOURCE'])
-media_tweets1['SOURCE']

@@ -17,7 +17,7 @@ for line in csv.reader(sys.stdin): # line = row of data points
         sentiment = blob.sentiment.polarity
         value = sentiment
         source = "MEDIA"
-        print(('%s,%s,%s') % (key, source, value))
+        print(('%s,%s,%s') % (key, source, value)) #
     else:
         key = line[6]  # key = date
         processed_txt = line[7]
