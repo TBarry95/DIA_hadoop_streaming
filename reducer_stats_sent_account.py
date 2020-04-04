@@ -41,16 +41,15 @@ for key_value in csv.reader(sys.stdin):
 
         else:
             if last_account_key:
-                print(('%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s') % (last_account_key, # source
+                print(('%s,%s,%s,%s,%s,%s,%s,%s,%s,%s') % (last_account_key, # source
                                                 aggregate_sentiment / count_per_acc, # MEAN
                                                 stats.stdev(sent_list_sort), # stnd dev
                                                 sent_list_sort[int(len(sent_list_sort)/2)], # median
                                                 sent_list_sort[0], # min
                                                 sent_list_sort[-1], # max
-                                                        followers[0],
-                                                        followers[-1],  # max
-                                                favs_per_acc/(followers[-1]), # FAV_TO_FLWR ratio
-                                                rt_per_acc/(followers[int(len(followers)/2)]), # RT_TO_FLWR ratio
+                                                followers[-1],
+                                                favs_per_acc/followers[-1], # FAV_TO_FLWR ratio
+                                                rt_per_acc/followers[-1], # RT_TO_FLWR ratio
                                                 count_per_acc)) # count tweets under analysis
             aggregate_sentiment = sentiment_value
             last_account_key = this_account_key
@@ -62,14 +61,13 @@ for key_value in csv.reader(sys.stdin):
 
 # -- Output summary stats:
 if last_account_key == this_account_key:
-    print(('%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s') % (last_account_key,  # source
+    print(('%s,%s,%s,%s,%s,%s,%s,%s,%s,%s') % (last_account_key,  # source
                                             aggregate_sentiment / count_per_acc,  # MEAN
                                             stats.stdev(sent_list_sort),  # stnd dev
                                             sent_list_sort[int(len(sent_list_sort) / 2)],  # median
                                             sent_list_sort[0],  # min
                                             sent_list_sort[-1],
-                                            followers[0],
                                             followers[-1],  # max
                                             favs_per_acc / followers[-1],  # FAV_TO_FLWR ratio
-                                            rt_per_acc / (followers[int(len(followers) / 2)]),  # RT_TO_FLWR ratio
+                                            rt_per_acc / followers[-1],  # RT_TO_FLWR ratio
                                             count_per_acc))  # count tweets under analysis
