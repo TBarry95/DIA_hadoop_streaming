@@ -22,7 +22,7 @@ rt_per_acc = 0
 followers = SortedList() # max
 
 # (source, date, fav_count, rt_count, followers, login_device, sentiment))
-print("SOURCE, MEAN_SENT, STND_DEV_SENT, MEDIAN_SENT, MIN_SENT, MAX_SENT, MIN_FLWR, MAX_FLWR, FAV_TO_FLWR, RT_TO_FLWR, COUNT")
+print("SOURCE, MEAN_SENT, STND_DEV_SENT, MEDIAN_SENT, MIN_SENT, MAX_SENT, MIN_FLWR, MAX_FLWR, FAV_TO_FLWR, RT_TO_FLWR, TWEETS_PER_ACC")
 
 for key_value in csv.reader(sys.stdin):
     if len(key_value) > 0: # skips the last empty row.

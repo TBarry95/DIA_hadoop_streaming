@@ -9,7 +9,7 @@ import functions_tweet_mapreduce as fns
 import csv
 import datetime
 
-hdfs_results = pd.read_csv("/home/tiernan/PycharmProjects/DIA/part-00000")
+hdfs_results = pd.read_csv("/home/tiernan/PycharmProjects/DIA/output_date_sentiment")
 hdfs_results.columns = ['DATE', 'SOURCE', 'MEAN', 'STND_DEV', 'MEDIAN', 'MIN', 'MAX','COUNT']
 
 # Mean:
