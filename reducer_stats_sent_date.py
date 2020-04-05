@@ -19,16 +19,15 @@ count_per_date = 0
 aggregate_sentiment = 0
 
 #print("DATE", "MEAN", "STND_DEV", "MEDIAN", "MIN", "MAX", "COUNT")
-print("DATE, SOURCE, MEAN, STND_DEV, MEDIAN, MIN, MAX, COUNT")
-'''for sentiment in sys.stdin:
-    sentiment = sentiment.strip()  # if whitespace - removes
-    this_date_key, sentiment_value = sentiment.split()  # splits mapper by tab escaped
-    sentiment_value = float(sentiment_value)'''
+print("DATE, SOURCE, MEAN_SENT, STND_DEV_SENT, MEDIAN_SENT, MIN_SENT, MAX_SENT, TWEETS_PER_DATE, FAVS_PER_TWEETS, RT_PER_TWEET")
 
 for key_value in csv.reader(sys.stdin):
     this_date_key = key_value[0]
     source = key_value[1]
-    sentiment_value = float(key_value[2])
+    fav = int(key_value[2])
+    rt = int(key_value[3])
+    follower = int(key_value[4])
+    sentiment_value = float(key_value[6])
 
     if last_date_key == this_date_key:
         count_per_date += 1

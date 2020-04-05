@@ -11,19 +11,23 @@ import csv
 
 for line in csv.reader(sys.stdin): # line = row of data points
     if len(line) >= 14:
-        key = line[1] # key = date
+        date = line[1]
+        fav_count = line[7]
+        rt_count = line[8]
+        followers = line[9]
+        login_device = line[9]
         processed_txt = line[14]
         blob = TextBlob(processed_txt)
         sentiment = blob.sentiment.polarity
-        value = sentiment
-        source = "MEDIA"
-        print(('%s,%s,%s') % (key, source, value)) #
+        print(('%s,%s,%s,%s,%s,%s,%s') % (date, "MEDIA", fav_count, rt_count, followers, login_device, sentiment))
     else:
-        key = line[6]  # key = date
+        continue
+
+
+'''key = line[6]  # key = date
         processed_txt = line[7]
         blob = TextBlob(processed_txt)
         sentiment = blob.sentiment.polarity
         value = sentiment
-        source = "TRUMP"
         print(('%s,%s,%s') % (key, source, value))
-
+'''

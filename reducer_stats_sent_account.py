@@ -21,15 +21,17 @@ favs_per_acc = 0
 rt_per_acc = 0
 followers = SortedList() # max
 
-print("SOURCE, MEAN, STND_DEV, MEDIAN, MIN, MAX, MIN_FLWR, MAX_FLWR, FAV_TO_FLWR, RT_TO_FLWR, COUNT")
+# (source, date, fav_count, rt_count, followers, login_device, sentiment))
+print("SOURCE, MEAN_SENT, STND_DEV_SENT, MEDIAN_SENT, MIN_SENT, MAX_SENT, MIN_FLWR, MAX_FLWR, FAV_TO_FLWR, RT_TO_FLWR, COUNT")
 
 for key_value in csv.reader(sys.stdin):
     if len(key_value) > 0: # skips the last empty row.
-        this_account_key = key_value[1]
+        this_account_key = key_value[0]
+        date = key_value[1]
         fav = int(key_value[2])
         rt = int(key_value[3])
         follower = int(key_value[4])
-        sentiment_value = float(key_value[5])
+        sentiment_value = float(key_value[6])
 
         if last_account_key == this_account_key:
             count_per_acc += 1

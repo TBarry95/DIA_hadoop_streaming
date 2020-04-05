@@ -13,7 +13,24 @@ import csv
 import pandas as pd
 
 # 2. Data lists: In order to order by column, need make DF first and then print as CSV
-dt = []
+
+for line in csv.reader(sys.stdin): # line = row of data points
+    if len(line) >= 14:
+        source = line[2] # key = account
+        date = line[1]
+        fav_count = line[7]
+        rt_count = line[8]
+        followers = line[9]
+        login_device = line[9]
+        processed_txt = line[14]
+        blob = TextBlob(processed_txt)
+        sentiment = blob.sentiment.polarity
+        print(('%s,%s,%s,%s,%s,%s,%s') % (source, date, fav_count, rt_count, followers, login_device, sentiment)) #
+    else:
+        continue
+
+
+'''dt = []
 source = []
 fav_count = []
 rt_count = []
@@ -32,6 +49,7 @@ for line in csv.reader(sys.stdin): # line = row of data points
     blob = TextBlob(line[14])
     sentiment.append(blob.sentiment.polarity)
 
+
 df = pd.DataFrame()
 df['date'] = dt
 df['source'] = source
@@ -43,4 +61,4 @@ df['sentiment'] = sentiment
 # sort DF by media account:
 df = df.sort_values(by=['source'])
 # sort DF by media account:
-print(df.to_csv(sep=',', index=False, header=None))
+print(df.to_csv(sep=',', index=False, header=None))'''
