@@ -167,7 +167,13 @@ def get_sentiment_nbayes(trump_df_clean):
     trump_df_clean['SENTIMENT_NB'] = sentiment
     return trump_df_clean
 
-
+def unbuffered_lines(f):
+    line_buf = ""
+    while not f.channel.exit_status_ready():
+        line_buf += f.read(1)
+        if line_buf.endswith('\n'):
+            yield line_buf
+            line_buf = ''
 
 
 

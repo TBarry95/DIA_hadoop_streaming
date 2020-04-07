@@ -1,5 +1,7 @@
 #!/usr/bin/python
 
+# SCRIPT 4: Mapper script used for gathering sentiment analysis by Twitter account. Reducer is reducer_twitter_account.py
+
 # DES: Mapper script which reads twitter data, and applies a sentiment score for each tweet.
 #      Returns key value pair of data + sentiment score per tweet. No data is loss in this process.
 #      Key = Account, Value = Data + sentiment
@@ -30,6 +32,7 @@ for line in csv.reader(sys.stdin): # line = row of data points
         continue
 
 
+# No need for this?
 '''dt = []
 source = []
 fav_count = []
