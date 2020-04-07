@@ -11,19 +11,12 @@ import functions_tweet_mapreduce as fns
 # -- Read in Media tweets:
 media_tweets = pd.read_csv("/home/tiernan/PycharmProjects/DIA/twitter_mass_media_data.csv")
 
-'''
-# -- Read in Trump tweets:
-trump_tweets = pd.read_csv("/home/tiernan/PycharmProjects/DIA/trump_tweets.csv")
-with open("/home/tiernan/PycharmProjects/DIA/trump_tweets.json") as tweets:
-    data = json.load(tweets)
-trump_tweets = fns.get_json_data_to_df(data)
-# format date:
-trump_tweets['DATE_TIME'] = fns.tweet_date_format(trump_tweets)
-del trump_tweets['DATE']'''
-
 ##########################################################################
 # Transform:
 ##########################################################################
+
+# -- Check for duplicates:
+media_tweets.drop_duplicates()
 
 # -- Deal with NA values: Back fill followed by forward fill
 msno.matrix(media_tweets, figsize= (50,30))
