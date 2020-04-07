@@ -11,7 +11,6 @@ import sys
 import csv
 from sortedcontainers import SortedList
 import statistics as stats
-import numpy as np
 from scipy.stats import pearsonr
 
 # 2. reduce key,values by date and find stats per date:
@@ -61,8 +60,8 @@ for key_value in csv.reader(sys.stdin):
                                                                 followers[-1],
                                                                 favs_per_acc/followers[-1], # FAV_TO_FLWR ratio
                                                                 rt_per_acc/followers[-1], # RT_TO_FLWR ratio
-                                                                pearsonr(list_sentiment, favs_to_follower),
-                                                                pearsonr(list_sentiment, rt_to_follower),
+                                                                pearsonr(list_sentiment, favs_to_follower)[0],
+                                                                pearsonr(list_sentiment, rt_to_follower)[0],
                                                                 count_per_acc)) # count tweets under analysis
             aggregate_sentiment = sentiment_value
             last_account_key = this_account_key
@@ -83,6 +82,6 @@ if last_account_key == this_account_key:
                                             followers[-1],  # max
                                             favs_per_acc / followers[-1],  # FAV_TO_FLWR ratio
                                             rt_per_acc / followers[-1],  # RT_TO_FLWR ratio
-                                            pearsonr(list_sentiment, favs_to_follower),
-                                            pearsonr(list_sentiment, rt_to_follower),
+                                            pearsonr(list_sentiment, favs_to_follower)[0],
+                                            pearsonr(list_sentiment, rt_to_follower)[0],
                                             count_per_acc))  # count tweets under analysis
