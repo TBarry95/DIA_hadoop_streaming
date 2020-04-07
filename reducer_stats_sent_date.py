@@ -1,5 +1,7 @@
 #!/usr/bin/python
 
+# SCRIPT 4: Reducer script for
+
 # DES: Reducer script to find summary statistics for sentiment analysis scores
 #      finds mean, median, max, min, standard deviation for each date.
 
@@ -25,8 +27,8 @@ favs_to_follower = []
 rt_to_follower = []
 
 #print("DATE", "MEAN", "STND_DEV", "MEDIAN", "MIN", "MAX", "COUNT")
-print("DATE, SOURCE, MEAN_SENT, STND_DEV_SENT, MEDIAN_SENT, MIN_SENT, MAX_SENT, FAVS_PER_TWEETS, "
-      "CORR_FAV_SENT, CORR_RT_SENT, RT_PER_TWEET, TWEETS_PER_DATE")
+print("DATE, SOURCE, MEAN_SENT, STND_DEV_SENT, MEDIAN_SENT, MIN_SENT, MAX_SENT, FAVS_PER_TWEETS, RT_PER_TWEET, "
+      "CORR_FAV_SENT, CORR_RT_SENT,TWEETS_PER_DATE")
 
 for key_value in csv.reader(sys.stdin):
     this_date_key = key_value[0]
