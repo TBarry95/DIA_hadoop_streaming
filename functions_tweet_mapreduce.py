@@ -12,6 +12,8 @@ import numpy as np
 from textblob import TextBlob
 from textblob.sentiments import NaiveBayesAnalyzer
 import Twitter_API_Module as twt
+import matplotlib.pyplot as plt
+
 
 # # # # # # # # # # # # #
 # Extract:
@@ -175,8 +177,40 @@ def unbuffered_lines(f):
             yield line_buf
             line_buf = ''
 
+# -- Define plotting function for HDFS analysis:
+def plot_x_last_x_days(data, stat, days, title, ylabel, pct_ch = None):
+    hdfs_results_plot90 = data[len(data)-days:len(data)]
+    # -- yy-mm
+    #date_plot_format = [i[2:7] for i in hdfs_results_plot90['DATE']]
+    plt.figure()
+    if pct_ch == "YES":
+        plt.plot([i for i in range(1,len(hdfs_results_plot90[stat])+1)], hdfs_results_plot90[stat].pct_change())
+        plt.xlabel("Number of Days")
+        plt.ylabel(ylabel)
+        plt.title(title)
+    else:
+        plt.plot([i for i in range(1, len(hdfs_results_plot90[stat]) + 1)], hdfs_results_plot90[stat])
+        plt.xlabel("Number of Days")
+        plt.ylabel(ylabel)
+        plt.title(title)
+    return plt.show()
 
-
+def plot_x_last_x_days_acc(data, stat, x_axis_label, days, title, ylabel, pct_ch = None):
+    hdfs_results_plot90 = data[len(data)-days:len(data)]
+    # -- yy-mm
+    #date_plot_format = [i[2:7] for i in hdfs_results_plot90['DATE']]
+    plt.figure()
+    if pct_ch == "YES":
+        plt.plot([i for i in x_axis_label], hdfs_results_plot90[stat].pct_change())
+        plt.xlabel("List of Accounts")
+        plt.ylabel(ylabel)
+        plt.title(title)
+    else:
+        plt.plot([i for i in x_axis_label], hdfs_results_plot90[stat])
+        plt.xlabel("List of Accounts")
+        plt.ylabel(ylabel)
+        plt.title(title)
+    return plt.show()
 
 
 
