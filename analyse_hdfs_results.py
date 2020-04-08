@@ -1,7 +1,14 @@
+#!/usr/bin/python
+
+# SCRIPT 7: Get data from Ubuntu EC2 instance (data was manually copied from HDS to Ubuntu EC2).
+
+# DES:
+# BY:  Tiernan Barry, x19141840 - NCI.
+
+# Libraries:
 import numpy as np
 import pandas as pd
 import re
-# import missingno as msno
 import matplotlib.pyplot as plt
 import warnings
 import json
@@ -9,12 +16,9 @@ import functions_tweet_mapreduce as fns
 import csv
 import datetime
 
-##########################################################
-#. Extract: Read in files from HDFS:
-##########################################################
-
-hdfs_date_results = pd.read_csv("/home/tiernan/PycharmProjects/DIA/output_date_apr5.csv")
-hdfs_acc_results = pd.read_csv("/home/tiernan/PycharmProjects/DIA/output_acc_apr5.csv")
+# Installations (if needed):
+# pip install pysftp
+# import missingno as msno
 
 ##########################################################
 #. Transform:

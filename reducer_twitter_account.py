@@ -5,6 +5,8 @@
 # DES: Reducer script to find insights regarding sentiment analysis scores for each account.
 #      On a follower weighted basis, as well as a tweets per day basis, finds insights
 #      such as average sentiment scores per date, and correlations between sentiment scores and favourites/RTs.
+#      Please note:
+#      Results are manually copied from HDFS into the Ubuntu EC2 machine using 'hdfs dfs -copyToLocal'.
 # BY:  Tiernan Barry, x19141840 - NCI.
 
 # 1. Libraries:
@@ -16,21 +18,23 @@ from scipy.stats import pearsonr
 import warnings
 warnings.filterwarnings("ignore") # correlation throws warnings if result is nan due to list of constants. Need to ignore this.
 
-# 2. reduce key,values by date and find stats per date:
+# 2. Initialise values for reducing by account:
 last_account_key = None
-sent_list_sort = SortedList()
 count_per_acc = 0
 aggregate_sentiment = 0
 favs_per_acc = 0
 rt_per_acc = 0
-followers = SortedList() # max
+sent_list_sort = SortedList()
+followers = SortedList() # finds highest and lowest follower count - assumption is that the highest count is the latest.
 list_sentiment = []
 favs_to_follower = []
 rt_to_follower = []
 
+# 3. Print column headings for output in CSV format:
 print("SOURCE, MEAN_SENT, STND_DEV_SENT, MEDIAN_SENT, MIN_SENT, MAX_SENT, "
       "MAX_FLWR, FAV_TO_FLWR, RT_TO_FLWR, CORR_FAV_SENT, CORR_RT_SENT, TWEETS_PER_ACC")
 
+# 4. Reduce by account:
 for key_value in csv.reader(sys.stdin):
     if len(key_value) > 0: # skips the last empty row.
         this_account_key = key_value[0]
@@ -42,9 +46,9 @@ for key_value in csv.reader(sys.stdin):
 
         if last_account_key == this_account_key:
             count_per_acc += 1
-            sent_list_sort.add(sentiment_value) #1
+            sent_list_sort.add(sentiment_value)
             aggregate_sentiment += sentiment_value
-            favs_per_acc += fav # add favs per tweet, etc
+            favs_per_acc += fav
             rt_per_acc += rt
             followers.add(follower)
             list_sentiment.append(sentiment_value)
@@ -67,11 +71,12 @@ for key_value in csv.reader(sys.stdin):
                        pearsonr(list_sentiment, rt_to_follower)[0],
                        count_per_acc)) # count tweets under analysis
 
+            # Start the reducer / restart values for each iteration
             aggregate_sentiment = sentiment_value
             last_account_key = this_account_key
-            count_per_acc = 1 # restart list for each account
-            favs_per_acc = fav # restart list for each account
-            rt_per_acc = rt # restart list for each account
+            count_per_acc = 1
+            favs_per_acc = fav
+            rt_per_acc = rt
             sent_list_sort = SortedList()
             sent_list_sort.add(sentiment_value)
             followers = SortedList()

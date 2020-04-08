@@ -28,13 +28,16 @@ private_key_pem = "tb_ubuntu_mint.pem"
 with pysftp.Connection(host=my_hostname, username=my_username, password=my_password, cnopts=cnopts, private_key=private_key_pem) as sftp:
     print("Connected to Ubuntu EC2 Server....")
 
-    # -- Files for sending to Ubuntu:
-    # ---- Processed tweets: Commenting out as not necessary each time:
-    #local_path_tweets = "/home/tiernan/PycharmProjects/DIA/twitter_media_prod.csv"
-    # ---- Mappers: Date and Account
+    # -- 5 files for sending to Ubuntu:
+    # ---- 1. Processed tweets:
+    # Commenting out as not necessary each time:
+    # local_path_tweets = "/home/tiernan/PycharmProjects/DIA/twitter_media_prod.csv"
+
+    # ---- 2. Mappers: Date and Account
     local_path_mapper1 = "/home/tiernan/PycharmProjects/DIA/mapper_twitter_date.py"
     local_path_mapper2 = "/home/tiernan/PycharmProjects/DIA/mapper_twitter_account.py"
-    # ---- Reducers: Date and Account:
+
+    # ---- 3. Reducers: Date and Account:
     local_path_reducer1 = "/home/tiernan/PycharmProjects/DIA/reducer_twitter_date.py"
     local_path_reducer2 = "/home/tiernan/PycharmProjects/DIA/reducer_twitter_account.py"
 
