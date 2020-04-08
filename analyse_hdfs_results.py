@@ -18,8 +18,7 @@ import datetime
 import matplotlib.pyplot as plt
 from bokeh.models import LinearAxis, Range1d
 from bokeh.plotting import figure, output_file, ColumnDataSource, show
-from bokeh.layouts import column, gridplot
-
+from bokeh.layouts import column, gridplot, LayoutDOM
 
 # Installations (if needed):
 # import missingno as msno
@@ -46,11 +45,6 @@ hdfs_acc_results.columns = ['SOURCE', 'MEAN_SENT', 'STND_DEV_SENT', 'MEDIAN_SENT
 hdfs_date_results.drop_duplicates()
 hdfs_acc_results.drop_duplicates()
 
-# -- Transform names into abbreviated names for easier graphing hdfs_acc_results:
-'''for i in hdfs_acc_results['SOURCE']:
-    if len(i) > 6:
-        print(i)'''
-
 ##########################################################
 #. Analysis 1: Dataset reduced by date: date_apr8.csv
 #. 1. Plot number of tweets by date.
@@ -58,106 +52,95 @@ hdfs_acc_results.drop_duplicates()
 #. 3. Correlations?
 ##########################################################
 
-plt.figure()
-plt.plot([i for i in range(0,60)], hdfs_date_results["FAVS_PER_TWEETS"][len(hdfs_date_results)-60:])
-plt.plot([i for i in range(0,60)], hdfs_date_results["RT_PER_TWEET"][len(hdfs_date_results)-60:])
-plt.xlabel("Number of Days")
-plt.ylabel()
-plt.title()
-plt.legend()
-# bokeh:
-
-fav = hdfs_date_results["FAVS_PER_TWEETS"][len(hdfs_date_results)-60:]
-rt = hdfs_date_results["RT_PER_TWEET"][len(hdfs_date_results)-60:]
-days = [i for i in range(0,60)]
-fav_rt = figure(x_axis_type="datetime", title="Fav to Follower vs RT to Follower Ratio", plot_height=600,plot_width=800,
-                x_axis_label = "Days", y_axis_label = "Ratio")
-fav_rt.extra_y_ranges= {"RT": Range1d(start=0, end=max(rt))}
-fav_rt.add_layout(LinearAxis(y_range_name="RT"), "right")
-fav_rt.line(days, fav, legend="Fav:Follower",alpha=0.8, color="#53777a")
-fav_rt.line(days, rt, legend="RT:Follower", alpha=0.8, color="#c02942", y_range_name = "RT")
-fav_rt.legend.location = "top_left"
-fav_rt.legend.click_policy="hide"
-show(fav_rt)
-
-'''
-px_s = [x for x in df_spx["Close Price"]]
-dt_s = [dt.strptime(i, "%Y-%m-%d").date() for i in df_spx["Date"]]
-px_p = [x for x in df_psa["Close Price"]]
-dt_p = [dt.strptime(i, "%Y-%m-%d").date() for i in df_psa["Date"]]
-px_a = [x for x in df_adbe["Close Price"]]
-dt_a = [dt.strptime(i, "%Y-%m-%d").date() for i in df_adbe["Date"]]
-px_h = [x for x in df_hngr["Close Price"]]
-dt_h = [dt.strptime(i, "%Y-%m-%d").date() for i in df_hngr["Date"]]
-
-# create 2x2 plots
-s1s = figure(x_axis_type="datetime", title="SPX & PSA Hist. Return - Click Legend to Hide Stock", plot_height=600,plot_width=800,
-                x_axis_label = "Time (years)", y_axis_label = "Price (USD)")
-s1s.extra_y_ranges= {"Price2": Range1d(start=0, end=max(px_p))}
-s1s.add_layout(LinearAxis(y_range_name="Price2"), "right")
-s1s.line(dt_s, px_s, legend="SPX",alpha=0.8, color="#53777a")
-s1s.line(dt_p, px_p, legend="PSA", alpha=0.8, color="#c02942", y_range_name = "Price2")
-s1s.legend.location = "top_left"
-s1s.legend.click_policy="hide"
-s2s = figure(x_axis_type="datetime", title="ADBE & HNGR Hist. Return - Click Legend to Hide Stock", plot_height=600,plot_width=800,
-                x_axis_label = "Time (years)", y_axis_label = "Price (USD)")
-s2s.extra_y_ranges= {"Price2": Range1d(start=0, end=max(px_p))}
-s2s.add_layout(LinearAxis(y_range_name="Price2"), "right")
-s2s.line(dt_a, px_a, legend="ADBE",alpha=0.8, color="#53777a")
-s2s.line(dt_h, px_h, legend="HNGR",alpha=0.8, color="#c02942", y_range_name = "Price2")
-s2s.legend.location = "top_left"
-s2s.legend.click_policy="hide"
-grid_2 = gridplot([s1s,s2s], ncols=2, plot_width=400, plot_height=300)
-
-show(grid_2)'''
-
-
-
 #. 1. Plot number of tweets by TWEETS_PER_DATE
 fns.plot_x_last_x_days(hdfs_date_results, "TWEETS_PER_DATE", len(hdfs_date_results), "Number of Tweets by Day", "Number of Tweets")
+# -- Notes from above graph:
+# -- Total days = 1337, using 20 days means theres around 2k+ tweets per day.
 # -- Total days = 1337, using 30-40 days means theres around 600+ tweets per day.
 # -- Total days = 1337, using 70 days means theres around 200+ tweets per day.
 # -- Total days = 1337, using 100 days means theres around 50-100+ tweets per day.
 # -- Total days = 1337, between 1280 and 1250 not uch difference - between 250-50+ tweets per day.
+'''
+# 2. Build Bokeh Dashboard for all Date analysis:
+# -- Plot Fav:Follower vs RT:Follower by date:
+fav_dt = hdfs_date_results["FAVS_PER_TWEETS"][len(hdfs_date_results)-60:]
+rt_dt = hdfs_date_results["RT_PER_TWEET"][len(hdfs_date_results)-60:]
+days = [i for i in range(0,60)]
+fav_rt = figure(title="Fav to Follower vs RT to Follower Ratio by Date", plot_height=600,plot_width=800,
+                x_axis_label = "Last 60 Days", y_axis_label = "Ratio") # x_axis_type="datetime
+fav_rt.extra_y_ranges= {"RT": Range1d(start=0, end=max(rt_dt))}
+fav_rt.add_layout(LinearAxis(y_range_name="RT"), "right")
+fav_rt.line(days, fav_dt, legend="Fav:Follower",alpha=0.8, color="#53777a")
+fav_rt.line(days, rt_dt, legend="RT:Follower", alpha=0.8, color="#c02942")
+fav_rt.legend.location = "top_right"
+fav_rt.legend.click_policy="hide"
 
-#. 2. Plot summary statistics:
-# -- Using number of tweets per day as an indication, pick number of days:
-fns.plot_x_last_x_days(hdfs_date_results, "MEAN_SENT", 30, "Mean sentiment 30 days", "Mean Sentiment")
+fav_acc = hdfs_acc_results['FAV_TO_FLWR'][len(hdfs_acc_results)-60:]
+rt_acc = hdfs_acc_results['RT_TO_FLWR'][len(hdfs_acc_results)-60:]
+days = [i for i in range(0,60)]
+fav_rt_acc = figure(title="Fav to Follower vs RT to Follower Ratio by Date", plot_height=600,plot_width=800,
+                x_axis_label = "Last 60 Days", y_axis_label = "Ratio") #x_axis_type="datetime
+fav_rt_acc.extra_y_ranges= {"RT": Range1d(start=0, end=max(rt))}
+fav_rt_acc.add_layout(LinearAxis(y_range_name="RT"), "right")
+fav_rt_acc.line(days, fav_acc, legend="Fav:Follower",alpha=0.8, color="#53777a")
+fav_rt_acc.line(days, rt_acc, legend="RT:Follower", alpha=0.8, color="#c02942", y_range_name = "RT")
+fav_rt_acc.legend.location = "top_right"
+fav_rt_acc.legend.click_policy="hide"
+
+grid = gridplot([fav_rt,fav_acc], ncols=2, plot_width=400, plot_height=300)
+show(grid)'''
+
+#. 2. Plot Mean Sentiment for last X days:
+fns.plot_x_last_x_days(hdfs_date_results, "MEAN_SENT", 100, "Daily Mean Sentiment 100 days", "Mean Sentiment")
+fns.plot_x_last_x_days(hdfs_date_results, "MEAN_SENT", 60, "Daily Mean Sentiment  60 days", "Mean Sentiment")
+fns.plot_x_last_x_days(hdfs_date_results, "MEAN_SENT", 30, "Daily Mean Sentiment  30 days", "Mean Sentiment")
+fns.plot_x_last_x_days(hdfs_date_results, "MEAN_SENT", 20, "Daily Mean Sentiment  20 days", "Mean Sentiment")
+
+#. 3. Plot standard deviation of sentiment last X days:
 fns.plot_x_last_x_days(hdfs_date_results, "STND_DEV_SENT", 30, "Standard Deviation of Sentiment 30 days", "Standard Deviation")
 
+#. 4. Plot Daily Favourite:Followers ratio vs RT:Followers ratio by Date:
 plt.figure()
-plt.plot([i for i in range(0,30)], hdfs_date_results["MEAN_SENT"][len(hdfs_date_results)-30:])
-plt.plot([i for i in range(0,30)], hdfs_date_results["STND_DEV_SENT"][len(hdfs_date_results)-30:])
-
-plt.figure()
-plt.plot([i for i in range(0,60)], hdfs_date_results["FAVS_PER_TWEETS"][len(hdfs_date_results)-60:])
-plt.plot([i for i in range(0,60)], hdfs_date_results["RT_PER_TWEET"][len(hdfs_date_results)-60:])
+plot_dt_fav, = plt.plot([i for i in range(0,60)], hdfs_date_results["FAVS_PER_TWEETS"][len(hdfs_date_results)-60:])
+plot_dt_rt, = plt.plot([i for i in range(0,60)], hdfs_date_results["RT_PER_TWEET"][len(hdfs_date_results)-60:])
 plt.xlabel("Number of Days")
-plt.ylabel()
-plt.title()
-plt.legend()
+plt.ylabel("Ratio per Day")
+plt.title("Daily Favourite:Follower vs RT:Follower Ratio")
+plt.legend([plot_dt_fav, plot_dt_rt], ["Mean Favourite", "Mean RT"])
+
+#. 5. Plot Correlation between sentiment and Favourites/RT for last X days:
+plt.figure()
+plot_dt_corr1, = plt.plot([i for i in range(0,100)], hdfs_date_results['CORR_FAV_SENT'][len(hdfs_date_results)-100:])
+plot_dt_corr2, = plt.plot([i for i in range(0,100)], hdfs_date_results['CORR_RT_SENT'][len(hdfs_date_results)-100:])
+plt.xlabel("Number of Days")
+plt.ylabel("Ratio per Day")
+plt.title("Daily Correlation: Sentiment:Favourite vs Sentiment:RT")
+plt.legend([plot_dt_corr1, plot_dt_corr2], ["Sentiment:Favourite", "Sentiment:RT"])
 
 ##########################################################
-#. Analysis 2: Dataset reduced by account:
-#. 1. Tweets by account = 1800
+#. Analysis 2: Dataset reduced by account: account_apr8.csv
+#. 1. Tweets by account = 2400
 #. 2. Plotting average sentiment
 #. 3. Get top 10 and bottom 10
 ##########################################################
 
-#. 1. Plotting average sentiment
+# 1. Plotting average sentiment
 fns.plot_x_last_x_days_acc(hdfs_acc_results, 'MEAN_SENT', [i for i in range(0,len(hdfs_acc_results))], len(hdfs_acc_results), "Mean Sentiment per Account", "Mean Sentiment")
 
-#. 2. Sort by sentiment:
+# 2. Plot Tables of Top X accounts and Bottom X accunts:
+# -- Sort by sentiment:
 hdfs_acc_results = hdfs_acc_results.sort_values(by='MEAN_SENT')
-bottom_x_sentiment = hdfs_acc_results[0:5]
-top_x_sentiment = hdfs_acc_results[len(hdfs_acc_results)-5:]
+bottom_x_sentiment = hdfs_acc_results[['SOURCE', 'MEAN_SENT']][0:10]
+bottom_x_sentiment = bottom_x_sentiment.sort_values(by=['MEAN_SENT'], ascending=True)
+top_x_sentiment = hdfs_acc_results[['SOURCE', 'MEAN_SENT']][len(hdfs_acc_results)-10:]
+top_x_sentiment = top_x_sentiment.sort_values(by=['MEAN_SENT'], ascending=False)
 
-#. 2. Plot top 10 v Bottom 10:
-fns.plot_x_last_x_days_acc(top_x_sentiment, 'MEAN_SENT', [i for i in top_x_sentiment['SOURCE']], len(top_x_sentiment), "Top 5 by sentiment", "Mean Sentiment")
-fns.plot_x_last_x_days_acc(bottom_x_sentiment, 'MEAN_SENT', [i for i in bottom_x_sentiment['SOURCE']], len(bottom_x_sentiment), "Bottom 5 by sentiment", "Mean Sentiment")
+# -- Plot bottom X accounts:
+fig_bottom, ax_bottom = plt.subplots()
+ax_bottom.table(cellText=bottom_x_sentiment.values, colLabels=bottom_x_sentiment.columns, loc='center')
 
-
-top_10_sentiment[['SOURCE', 'MEAN_SENT']].plot(kind = 'bar', )
-
+# -- Plot top X accounts:
+fig_top, ax_top = plt.subplots()
+ax_top.table(cellText=top_x_sentiment.values, colLabels=top_x_sentiment.columns, loc='center')
 
 
