@@ -33,7 +33,8 @@ with pysftp.Connection(host=my_hostname, username=my_username, password=my_passw
     # Commenting out as not necessary each time:
     # local_path_tweets = "/home/tiernan/PycharmProjects/DIA/twitter_media_prod.csv"
 
-    # ---- 2. Mappers: Date and Account
+    # ---- 2. Mappers: Map only, Date and Account
+    local_path_mapper = "/home/tiernan/PycharmProjects/DIA/mapper_stop_words.py"
     local_path_mapper1 = "/home/tiernan/PycharmProjects/DIA/mapper_twitter_date.py"
     local_path_mapper2 = "/home/tiernan/PycharmProjects/DIA/mapper_twitter_account.py"
 
@@ -43,6 +44,7 @@ with pysftp.Connection(host=my_hostname, username=my_username, password=my_passw
 
     # -- Define remote path for files:
     remote_path_tweets = '/home/hduser/mr_tests/production_scripts/twitter_data_prod.csv'
+    remote_path_map = '/home/hduser/mr_tests/mapper_stop_words.py'
     remote_path_map1 = '/home/hduser/mr_tests/production_scripts/mapper_twitter_date.py'
     remote_path_map2 = '/home/hduser/mr_tests/production_scripts/mapper_twitter_account.py'
     remote_path_red1 = '/home/hduser/mr_tests/production_scripts/reducer_twitter_date.py'
@@ -53,6 +55,7 @@ with pysftp.Connection(host=my_hostname, username=my_username, password=my_passw
     sftp.put(local_path_mapper2, remote_path_map2)
     sftp.put(local_path_reducer1, remote_path_red1)
     sftp.put(local_path_reducer2, remote_path_red2)
+    sftp.put(local_path_mapper, remote_path_map)
 
     sftp.close()
     print("Connection closed")

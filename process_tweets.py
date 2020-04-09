@@ -12,6 +12,7 @@
 import pandas as pd
 import re
 import missingno as msno
+from sklearn.feature_extraction.text import CountVectorizer
 import functions_tweet_mapreduce as fns
 
 ##########################################################################
@@ -45,3 +46,4 @@ media_tweets.to_csv("/home/tiernan/PycharmProjects/DIA/twitter_media_prod.csv", 
 ##########################################################################
 
 # -- Now that input data is cleaned for sentimetn analysis in HDFS, send all files to cloud in Script 3: send_files_to_cloud.py
+# -- Map job will remove stop words (script 4)

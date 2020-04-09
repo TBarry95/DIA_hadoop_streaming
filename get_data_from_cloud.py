@@ -29,12 +29,12 @@ with pysftp.Connection(host=my_hostname, username=my_username, password=my_passw
     print("Connected to Ubuntu EC2 Server....")
 
     # -- Define remote path for files:
-    remote_path_account = '/home/hduser/mr_tests/hdfs_output/account_apr8.csv'
-    remote_path_date = '/home/hduser/mr_tests/hdfs_output/date_apr8.csv'
+    remote_path_account = '/home/hduser/mr_tests/hdfs_output/account_apr9.csv'
+    remote_path_date = '/home/hduser/mr_tests/hdfs_output/date_apr9.csv'
 
     # -- Define local paths for writing:
-    local_path_account = "/home/tiernan/PycharmProjects/DIA/account_apr8.csv"
-    local_path_date = "/home/tiernan/PycharmProjects/DIA/date_apr8.csv"
+    local_path_account = "/home/tiernan/PycharmProjects/DIA/account_apr9.csv"
+    local_path_date = "/home/tiernan/PycharmProjects/DIA/date_apr9.csv"
 
     df_acc = sftp.get(remote_path_account, local_path_account)
     df_dt = sftp.get(remote_path_date, local_path_date)

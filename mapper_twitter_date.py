@@ -16,13 +16,13 @@ import csv
 # pip install textblob
 
 for line in csv.reader(sys.stdin): # line = row of data points, uses csv reader to split data.
-    if len(line) >= 14:
+    if len(line) >= 7:
         date = line[1]
-        fav_count = line[7]
-        rt_count = line[8]
-        followers = line[9]
-        login_device = line[6]
-        processed_txt = line[14]
+        fav_count = line[4]
+        rt_count = line[5]
+        followers = line[6]
+        login_device = line[3]
+        processed_txt = line[7]
         blob = TextBlob(processed_txt)
         sentiment = blob.sentiment.polarity
         print(('%s,%s,%s,%s,%s,%s,%s') % (date, "MEDIA", fav_count, rt_count, followers, login_device, sentiment))

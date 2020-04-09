@@ -27,8 +27,8 @@ from bokeh.layouts import column, gridplot, LayoutDOM
 # Extract: Read in data locally (after being called from HDFS in script 7)
 ##########################################################################
 
-hdfs_date_results = pd.read_csv("/home/tiernan/PycharmProjects/DIA/date_apr8.csv")
-hdfs_acc_results = pd.read_csv("/home/tiernan/PycharmProjects/DIA/account_apr8.csv")
+hdfs_date_results = pd.read_csv("/home/tiernan/PycharmProjects/DIA/date_apr9.csv")
+hdfs_acc_results = pd.read_csv("/home/tiernan/PycharmProjects/DIA/account_apr9.csv")
 
 ##########################################################################
 #. Transform:
@@ -95,6 +95,8 @@ fns.plot_x_last_x_days(hdfs_date_results, "MEAN_SENT", 100, "Daily Mean Sentimen
 fns.plot_x_last_x_days(hdfs_date_results, "MEAN_SENT", 60, "Daily Mean Sentiment  60 days", "Mean Sentiment")
 fns.plot_x_last_x_days(hdfs_date_results, "MEAN_SENT", 30, "Daily Mean Sentiment  30 days", "Mean Sentiment")
 fns.plot_x_last_x_days(hdfs_date_results, "MEAN_SENT", 20, "Daily Mean Sentiment  20 days", "Mean Sentiment")
+
+fns.plot_x_last_x_days(hdfs_date_results, "MEAN_SENT", 30, "Daily Mean Sentiment  30 days", "Mean Sentiment", pct_ch="YES")
 
 #. 3. Plot standard deviation of sentiment last X days:
 fns.plot_x_last_x_days(hdfs_date_results, "STND_DEV_SENT", 30, "Standard Deviation of Sentiment 30 days", "Standard Deviation")
