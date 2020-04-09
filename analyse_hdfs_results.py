@@ -90,6 +90,12 @@ fav_rt_acc.legend.click_policy="hide"
 grid = gridplot([fav_rt,fav_acc], ncols=2, plot_width=400, plot_height=300)
 show(grid)'''
 
+#twets_2020 = hdfs_date_results[hdfs_date_results['DATE'][0:4] == "2020"]
+
+#plt.figure()
+#plt.plot([i[0:4] for i in hdfs_date_results['DATE']], hdfs_date_results['TWEETS_PER_DATE'])
+#hdfs_date_results[['TWEETS_PER_DATE', 'DATE']].plot(kind = 'hist')
+
 #. 2. Plot Mean Sentiment for last X days:
 fns.plot_x_last_x_days(hdfs_date_results, "MEAN_SENT", 100, "Daily Mean Sentiment 100 days", "Mean Sentiment")
 fns.plot_x_last_x_days(hdfs_date_results, "MEAN_SENT", 60, "Daily Mean Sentiment  60 days", "Mean Sentiment")
@@ -140,9 +146,17 @@ top_x_sentiment = top_x_sentiment.sort_values(by=['MEAN_SENT'], ascending=False)
 # -- Plot bottom X accounts:
 fig_bottom, ax_bottom = plt.subplots()
 ax_bottom.table(cellText=bottom_x_sentiment.values, colLabels=bottom_x_sentiment.columns, loc='center')
+ax_bottom.set_title("Bottom 10 Ranked Twitter Accounts by Mean Sentiment", size=15)
+ax_bottom.axis('off')
+
+bottom_x_sentiment = bottom_x_sentiment.set_index('SOURCE')
+bottom_x_sentiment.plot(kind='bar')
 
 # -- Plot top X accounts:
 fig_top, ax_top = plt.subplots()
 ax_top.table(cellText=top_x_sentiment.values, colLabels=top_x_sentiment.columns, loc='center')
+ax_top.set_title("Top 10 Ranked Twitter Accounts by Mean Sentiment")
+ax_top.axis('off')
 
-
+top_x_sentiment = top_x_sentiment.set_index('SOURCE')
+top_x_sentiment.plot(kind='bar')
