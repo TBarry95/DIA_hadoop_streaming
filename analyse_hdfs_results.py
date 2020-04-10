@@ -125,6 +125,15 @@ plt.ylabel("Ratio per Day")
 plt.title("Daily Correlation: Sentiment:Favourite vs Sentiment:RT")
 plt.legend([plot_dt_corr1, plot_dt_corr2], ["Sentiment:Favourite", "Sentiment:RT"])
 
+hdfs_date_results_dt_corr = hdfs_date_results.sort_values(['CORR_RT_SENT'])[hdfs_date_results['TWEETS_PER_DATE'] > 250]
+hdfs_date_results_dt_corr = hdfs_date_results_dt_corr[['DATE', 'CORR_RT_SENT', 'TWEETS_PER_DATE']]
+
+#-- Plot days where > 250 tweets:
+fig_corr_dts, ax_corr_dt = plt.subplots()
+ax_corr_dt.table(cellText=hdfs_date_results_dt_corr.values, colLabels=hdfs_date_results_dt_corr.columns, loc='center')
+ax_corr_dt.set_title("Correlation between", size=15)
+ax_corr_dt.axis('off')
+
 ##########################################################
 #. Analysis 2: Dataset reduced by account: account_apr8.csv
 #. 1. Tweets by account = 2400
@@ -135,12 +144,12 @@ plt.legend([plot_dt_corr1, plot_dt_corr2], ["Sentiment:Favourite", "Sentiment:RT
 # 1. Plotting average sentiment
 fns.plot_x_last_x_days_acc(hdfs_acc_results, 'MEAN_SENT', [i for i in range(0,len(hdfs_acc_results))], len(hdfs_acc_results), "Mean Sentiment per Account", "Mean Sentiment")
 
-# 2. Plot Tables of Top X accounts and Bottom X accunts:
+# 2. Plot Tables of Top X accounts and Bottom X accunts by sentiment:
 # -- Sort by sentiment:
-hdfs_acc_results = hdfs_acc_results.sort_values(by='MEAN_SENT')
-bottom_x_sentiment = hdfs_acc_results[['SOURCE', 'MEAN_SENT']][0:10]
+hdfs_acc_results_mean = hdfs_acc_results.sort_values(by='MEAN_SENT')
+bottom_x_sentiment = hdfs_acc_results_mean[['SOURCE', 'MEAN_SENT']][0:10]
 bottom_x_sentiment = bottom_x_sentiment.sort_values(by=['MEAN_SENT'], ascending=True)
-top_x_sentiment = hdfs_acc_results[['SOURCE', 'MEAN_SENT']][len(hdfs_acc_results)-10:]
+top_x_sentiment = hdfs_acc_results_mean[['SOURCE', 'MEAN_SENT']][len(hdfs_acc_results)-10:]
 top_x_sentiment = top_x_sentiment.sort_values(by=['MEAN_SENT'], ascending=False)
 
 # -- Plot bottom X accounts:
@@ -160,3 +169,33 @@ ax_top.axis('off')
 
 top_x_sentiment = top_x_sentiment.set_index('SOURCE')
 top_x_sentiment.plot(kind='bar')
+
+# 3. Analyse engagements by account:
+# -- Sort by CORR_RT_SENT:
+hdfs_acc_results_corr = hdfs_acc_results.sort_values(['CORR_RT_SENT'])
+
+median_corr = hdfs_acc_results_corr['CORR_RT_SENT'][int(len(hdfs_acc_results_corr)/2)]
+
+bottom_x_rt_corr = hdfs_acc_results_corr[['SOURCE', 'CORR_RT_SENT']][0:10]
+bottom_x_rt_corr = bottom_x_rt_corr.sort_values(['CORR_RT_SENT'], ascending=True)
+top_x_rt_corr = hdfs_acc_results_corr[['SOURCE', 'CORR_RT_SENT']][len(hdfs_acc_results)-10:]
+top_x_rt_corr = top_x_rt_corr.sort_values(['CORR_RT_SENT'], ascending=False)
+
+# -- Plot bottom X accounts:
+fig_corr_botm, ax_corr_botm = plt.subplots()
+ax_corr_botm.table(cellText=bottom_x_rt_corr.values, colLabels=bottom_x_rt_corr.columns, loc='center')
+ax_corr_botm.set_title("Lowest Correlation between Sentiment and Engagement (RT)", size=15)
+ax_corr_botm.axis('off')
+
+# -- Plot top X accounts:
+fig_corr_top, ax_corr_top = plt.subplots()
+ax_corr_top.table(cellText=top_x_rt_corr.values, colLabels=top_x_rt_corr.columns, loc='center')
+ax_corr_top.set_title("Highest Correlation between Sentiment and Engagement (RT)")
+ax_corr_top.axis('off')
+
+top_x_sentiment = top_x_sentiment.set_index('SOURCE')
+top_x_sentiment.plot(kind='bar')
+
+
+
+
