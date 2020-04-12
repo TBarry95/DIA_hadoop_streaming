@@ -13,8 +13,8 @@ import nltk
 from nltk.tokenize import word_tokenize
 import csv
 import sys
-nltk.download('stopwords')
-nltk.download('punkt')
+#nltk.download('stopwords')
+#nltk.download('punkt')
 
 for line in csv.reader(sys.stdin): # line = row of data points
     if len(line) >= 14:

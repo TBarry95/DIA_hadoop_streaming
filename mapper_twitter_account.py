@@ -12,18 +12,19 @@
 import sys
 from textblob import TextBlob
 import csv
-import pandas as pd
 
 # 2. Data lists: In order to order by column, need make DF first and then print as CSV
+
+# (tweet_id, date, source, login_device, fav_count, rt_count, followers, filtered_processed_text))
 
 for line in csv.reader(sys.stdin): # line = row of data points
     if len(line) >= 7:
         date = line[1]
         source = line[2]
+        login_device = line[3]
         fav_count = line[4]
         rt_count = line[5]
         followers = line[6]
-        login_device = line[3]
         processed_txt = line[7]
         blob = TextBlob(processed_txt)
         sentiment = blob.sentiment.polarity

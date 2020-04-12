@@ -46,6 +46,12 @@ hdfs_date_results.drop_duplicates()
 hdfs_acc_results.drop_duplicates()
 
 ##########################################################
+# Explore:
+##########################################################
+
+
+
+##########################################################
 #. Analysis 1: Dataset reduced by date: date_apr8.csv
 #. 1. Plot number of tweets by date.
 #. 2. Based on above, plot summary statistics by date.
@@ -170,6 +176,9 @@ ax_top.axis('off')
 top_x_sentiment = top_x_sentiment.set_index('SOURCE')
 top_x_sentiment.plot(kind='bar')
 
+top_x_sentiment[0:3].plot(kind='bar')
+bottom_x_sentiment[0:3].plot(kind='bar')
+
 # 3. Analyse engagements by account:
 # -- Sort by CORR_RT_SENT:
 hdfs_acc_results_corr = hdfs_acc_results.sort_values(['CORR_RT_SENT'])
@@ -180,6 +189,31 @@ bottom_x_rt_corr = hdfs_acc_results_corr[['SOURCE', 'CORR_RT_SENT']][0:10]
 bottom_x_rt_corr = bottom_x_rt_corr.sort_values(['CORR_RT_SENT'], ascending=True)
 top_x_rt_corr = hdfs_acc_results_corr[['SOURCE', 'CORR_RT_SENT']][len(hdfs_acc_results)-10:]
 top_x_rt_corr = top_x_rt_corr.sort_values(['CORR_RT_SENT'], ascending=False)
+
+# -- Plot bottom X accounts:
+fig_corr_botm, ax_corr_botm = plt.subplots()
+ax_corr_botm.table(cellText=bottom_x_rt_corr.values, colLabels=bottom_x_rt_corr.columns, loc='center')
+ax_corr_botm.set_title("Lowest Correlation between Sentiment and Engagement (RT)", size=15)
+ax_corr_botm.axis('off')
+
+# -- Plot top X accounts:
+fig_corr_top, ax_corr_top = plt.subplots()
+ax_corr_top.table(cellText=top_x_rt_corr.values, colLabels=top_x_rt_corr.columns, loc='center')
+ax_corr_top.set_title("Highest Correlation between Sentiment and Engagement (RT)")
+ax_corr_top.axis('off')
+
+top_x_sentiment = top_x_sentiment.set_index('SOURCE')
+top_x_sentiment.plot(kind='bar')
+
+
+hdfs_acc_results_fav = hdfs_acc_results.sort_values(['CORR_FAV_SENT'])
+
+median_fav = hdfs_acc_results_fav['CORR_FAV_SENT'][int(len(hdfs_acc_results_corr)/2)]
+
+bottom_x_fav = hdfs_acc_results_fav[['SOURCE', 'CORR_FAV_SENT']][0:10]
+bottom_x_fav = bottom_x_fav.sort_values(['CORR_FAV_SENT'], ascending=True)
+top_x_rt_fav = hdfs_acc_results_fav[['SOURCE', 'CORR_FAV_SENT']][len(hdfs_acc_results)-10:]
+top_x_rt_fav = top_x_rt_fav.sort_values(['CORR_FAV_SENT'], ascending=False)
 
 # -- Plot bottom X accounts:
 fig_corr_botm, ax_corr_botm = plt.subplots()

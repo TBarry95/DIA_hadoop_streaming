@@ -5,15 +5,13 @@
 # DES: Goal of this script is to transform data sourced from get_twitter_data.py (script 1)
 #      so that the data is prepared for sentiment analysis using map reduce (hadoop streaming).
 #      Therefore, ensured that the text data is processed correctly, by removing all punctuation
-#      Results in m2 additional columns to dataset: PROCESSED_TEXT, PROCESSED_HASHTAG
+#      Results in 2 additional columns to dataset: PROCESSED_TEXT, PROCESSED_HASHTAG
 # BY:  Tiernan Barry, x19141840 - NCI.
 
 # Libraries:
 import pandas as pd
 import re
 import missingno as msno
-from sklearn.feature_extraction.text import CountVectorizer
-import functions_tweet_mapreduce as fns
 
 ##########################################################################
 # Extract:
@@ -30,7 +28,7 @@ media_tweets = pd.read_csv("/home/tiernan/PycharmProjects/DIA/twitter_mass_media
 media_tweets.drop_duplicates()
 
 # -- Check for NA values:
-msno.matrix(media_tweets, figsize= (50,30))
+#msno.matrix(media_tweets, figsize= (50,30))
 # -- NA columns not important.
 
 # -- Make new column for processed name nad hashtags where possible:

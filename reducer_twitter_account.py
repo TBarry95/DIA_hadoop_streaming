@@ -30,9 +30,18 @@ list_sentiment = []
 favs_to_follower = []
 rt_to_follower = []
 
+# -- Add 0 to all lists to begin with, makes all lists at least 2 in lengths.
+# -- Enables correlation and standard deviation where date < 2 (not meaningful anyway).
+sent_list_sort.add(0)
+list_sentiment.append(0)
+favs_to_follower.append(0)
+rt_to_follower.append(0)
+
 # 3. Print column headings for output in CSV format:
 print("SOURCE, MEAN_SENT, STND_DEV_SENT, MEDIAN_SENT, MIN_SENT, MAX_SENT, "
       "MAX_FLWR, FAV_TO_FLWR, RT_TO_FLWR, CORR_FAV_SENT, CORR_RT_SENT, TWEETS_PER_ACC")
+
+# (source, date, fav_count, rt_count, followers, login_device, sentiment)) #
 
 # 4. Reduce by account:
 for key_value in csv.reader(sys.stdin):
@@ -78,12 +87,18 @@ for key_value in csv.reader(sys.stdin):
             favs_per_acc = fav
             rt_per_acc = rt
             sent_list_sort = SortedList()
-            sent_list_sort.add(sentiment_value)
             followers = SortedList()
-            followers.add(follower)
             list_sentiment = []
             favs_to_follower = []
             rt_to_follower = []
+            # -- Add 0 to all lists to begin with, makes all lists at least 2 in lengths:
+            sent_list_sort.add(0)
+            list_sentiment.append(0)
+            favs_to_follower.append(0)
+            rt_to_follower.append(0)
+            # -- Add actual data
+            sent_list_sort.add(sentiment_value)
+            followers.add(follower)
             list_sentiment.append(sentiment_value)
             favs_to_follower.append(fav/follower)
             rt_to_follower.append(rt/follower)
