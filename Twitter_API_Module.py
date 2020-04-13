@@ -1,7 +1,11 @@
-# Credit to LucidProgramming:
-# --- Youtube: https://www.youtube.com/watch?v=wlnx-7cm4Gg&t=223s
-#from PyQt5.QtSensors import qoutputrange
-#from rx.linq.observable import count
+#!/usr/bin/python
+
+# DES: Credit to LucidProgramming: Youtube: https://www.youtube.com/watch?v=wlnx-7cm4Gg&t=223s
+#      Using tweepy API, and following tutorial by Lucid Programming, created module for twitter API.
+#      Used for gathering tweets, handling twitter authentication, etc,
+# BY:  Tiernan Barry, x19141840 - NCI.
+
+# Libraries:
 from tweepy.streaming import StreamListener
 from tweepy import API
 from tweepy import Cursor
@@ -46,6 +50,17 @@ class TwitterClientClass(): #twitter_client_class
         for i in Cursor(self.twitter_client.search, q = hashtag, lang = "en").pages(num_of_tweets):
             tweet_list.append(i)
             return(tweet_list)
+
+    def get_location_tweets(self, country, num_of_tweets):
+        tweet_list = []
+        places = self.twitter_client.geo_search(query=country, granularity="country")
+        place_id = places[0].id
+        tweets = Cursor(self.twitter_client.search, q="place:%s" % place_id, tweet_mode='extended', wait_on_rate_limit=True).items(num_of_tweets)
+        for i in tweets:
+            tweet_list.append(i)
+            # print(i.text + " | " + i.place.name if i.place else "Undefined place")
+        return tweet_list
+
 
 # -- TWITTER_AUTHENTICATOR -- #
 class TwitterAuthenticator(): #twitter_auth
@@ -120,17 +135,3 @@ class AnalyseTweetsClass(): #analyse_tweets
         #df["Likes"] = np.array([i.favorite_count for i in tweets])
         #df["Retweets"] = np.array([i.retweet_count for i in tweets])
         return df
-
-#if __name__ == "__main__":
-    #twitter_client = TwitterClientClass()
-    #analyse_tweet = AnalyseTweetsClass()
-
-    #api = twitter_client.get_twitter_client_api()
-
-    #tweets = api.user_timeline(screen_name = "realDonaldTrump", count = 10)
-
-    #dataframe_tweets = analyse_tweet.dataframe_tweets(tweets)
-
-    #print(dataframe_tweets.head(10))
-
-

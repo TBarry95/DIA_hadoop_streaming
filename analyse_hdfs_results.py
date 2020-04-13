@@ -7,18 +7,10 @@
 # BY:  Tiernan Barry, x19141840 - NCI.
 
 # Libraries:
-import numpy as np
 import pandas as pd
-import re
-import warnings
-import json
 import functions_tweet_mapreduce as fns
-import csv
-import datetime
 import matplotlib.pyplot as plt
-from bokeh.models import LinearAxis, Range1d
-from bokeh.plotting import figure, output_file, ColumnDataSource, show
-from bokeh.layouts import column, gridplot, LayoutDOM
+from tabulate import tabulate
 
 # Installations (if needed):
 # import missingno as msno
@@ -46,12 +38,6 @@ hdfs_date_results.drop_duplicates()
 hdfs_acc_results.drop_duplicates()
 
 ##########################################################
-# Explore:
-##########################################################
-
-
-
-##########################################################
 #. Analysis 1: Dataset reduced by date: date_apr8.csv
 #. 1. Plot number of tweets by date.
 #. 2. Based on above, plot summary statistics by date.
@@ -62,56 +48,21 @@ hdfs_acc_results.drop_duplicates()
 fns.plot_x_last_x_days(hdfs_date_results, "TWEETS_PER_DATE", len(hdfs_date_results), "Number of Tweets by Day", "Number of Tweets")
 # -- Notes from above graph:
 # -- Total days = 1337, using 20 days means theres around 2k+ tweets per day.
-# -- Total days = 1337, using 30-40 days means theres around 600+ tweets per day.
+# -- Total days = 1337, using 30 days means theres around 1300+ tweets per day.
+# -- Total days = 1337, using 40 days means theres around 500 tweets per day.
 # -- Total days = 1337, using 70 days means theres around 200+ tweets per day.
 # -- Total days = 1337, using 100 days means theres around 50-100+ tweets per day.
-# -- Total days = 1337, between 1280 and 1250 not uch difference - between 250-50+ tweets per day.
-'''
-# 2. Build Bokeh Dashboard for all Date analysis:
-# -- Plot Fav:Follower vs RT:Follower by date:
-fav_dt = hdfs_date_results["FAVS_PER_TWEETS"][len(hdfs_date_results)-60:]
-rt_dt = hdfs_date_results["RT_PER_TWEET"][len(hdfs_date_results)-60:]
-days = [i for i in range(0,60)]
-fav_rt = figure(title="Fav to Follower vs RT to Follower Ratio by Date", plot_height=600,plot_width=800,
-                x_axis_label = "Last 60 Days", y_axis_label = "Ratio") # x_axis_type="datetime
-fav_rt.extra_y_ranges= {"RT": Range1d(start=0, end=max(rt_dt))}
-fav_rt.add_layout(LinearAxis(y_range_name="RT"), "right")
-fav_rt.line(days, fav_dt, legend="Fav:Follower",alpha=0.8, color="#53777a")
-fav_rt.line(days, rt_dt, legend="RT:Follower", alpha=0.8, color="#c02942")
-fav_rt.legend.location = "top_right"
-fav_rt.legend.click_policy="hide"
-
-fav_acc = hdfs_acc_results['FAV_TO_FLWR'][len(hdfs_acc_results)-60:]
-rt_acc = hdfs_acc_results['RT_TO_FLWR'][len(hdfs_acc_results)-60:]
-days = [i for i in range(0,60)]
-fav_rt_acc = figure(title="Fav to Follower vs RT to Follower Ratio by Date", plot_height=600,plot_width=800,
-                x_axis_label = "Last 60 Days", y_axis_label = "Ratio") #x_axis_type="datetime
-fav_rt_acc.extra_y_ranges= {"RT": Range1d(start=0, end=max(rt))}
-fav_rt_acc.add_layout(LinearAxis(y_range_name="RT"), "right")
-fav_rt_acc.line(days, fav_acc, legend="Fav:Follower",alpha=0.8, color="#53777a")
-fav_rt_acc.line(days, rt_acc, legend="RT:Follower", alpha=0.8, color="#c02942", y_range_name = "RT")
-fav_rt_acc.legend.location = "top_right"
-fav_rt_acc.legend.click_policy="hide"
-
-grid = gridplot([fav_rt,fav_acc], ncols=2, plot_width=400, plot_height=300)
-show(grid)'''
-
-#twets_2020 = hdfs_date_results[hdfs_date_results['DATE'][0:4] == "2020"]
-
-#plt.figure()
-#plt.plot([i[0:4] for i in hdfs_date_results['DATE']], hdfs_date_results['TWEETS_PER_DATE'])
-#hdfs_date_results[['TWEETS_PER_DATE', 'DATE']].plot(kind = 'hist')
+# -- Total days = 1337, between 1280 and 1250 not much difference - between 250-50+ tweets per day.
 
 #. 2. Plot Mean Sentiment for last X days:
 fns.plot_x_last_x_days(hdfs_date_results, "MEAN_SENT", 100, "Daily Mean Sentiment 100 days", "Mean Sentiment")
 fns.plot_x_last_x_days(hdfs_date_results, "MEAN_SENT", 60, "Daily Mean Sentiment  60 days", "Mean Sentiment")
 fns.plot_x_last_x_days(hdfs_date_results, "MEAN_SENT", 30, "Daily Mean Sentiment  30 days", "Mean Sentiment")
 fns.plot_x_last_x_days(hdfs_date_results, "MEAN_SENT", 20, "Daily Mean Sentiment  20 days", "Mean Sentiment")
-
-fns.plot_x_last_x_days(hdfs_date_results, "MEAN_SENT", 30, "Daily Mean Sentiment  30 days", "Mean Sentiment", pct_ch="YES")
+fns.plot_x_last_x_days(hdfs_date_results, "MEAN_SENT", 45, "Daily % Change Mean Sentiment 40 days", "% Change Mean Sentiment", pct_ch="YES")
 
 #. 3. Plot standard deviation of sentiment last X days:
-fns.plot_x_last_x_days(hdfs_date_results, "STND_DEV_SENT", 30, "Standard Deviation of Sentiment 30 days", "Standard Deviation")
+fns.plot_x_last_x_days(hdfs_date_results, "STND_DEV_SENT", 100, "Standard Deviation of Sentiment 30 days", "Standard Deviation")
 
 #. 4. Plot Daily Favourite:Followers ratio vs RT:Followers ratio by Date:
 plt.figure()
@@ -149,6 +100,9 @@ ax_corr_dt.axis('off')
 
 # 1. Plotting average sentiment
 fns.plot_x_last_x_days_acc(hdfs_acc_results, 'MEAN_SENT', [i for i in range(0,len(hdfs_acc_results))], len(hdfs_acc_results), "Mean Sentiment per Account", "Mean Sentiment")
+
+print(tabulate(hdfs_acc_results, headers=hdfs_acc_results.columns))
+
 
 # 2. Plot Tables of Top X accounts and Bottom X accunts by sentiment:
 # -- Sort by sentiment:
@@ -229,7 +183,3 @@ ax_corr_top.axis('off')
 
 top_x_sentiment = top_x_sentiment.set_index('SOURCE')
 top_x_sentiment.plot(kind='bar')
-
-
-
-
