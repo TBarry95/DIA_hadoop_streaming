@@ -157,8 +157,8 @@ ax_corr_top.table(cellText=top_x_rt_corr.values, colLabels=top_x_rt_corr.columns
 ax_corr_top.set_title("Highest Correlation between Sentiment and Engagement (RT)")
 ax_corr_top.axis('off')
 
-top_x_sentiment = top_x_sentiment.set_index('SOURCE')
-top_x_sentiment.plot(kind='bar')
+top_x_rt_corr = top_x_rt_corr.set_index('SOURCE')
+top_x_rt_corr.plot(kind='bar')
 
 hdfs_acc_results_fav = hdfs_acc_results.sort_values(['CORR_FAV_SENT'])
 
@@ -174,12 +174,3 @@ fig_corr_botm, ax_corr_botm = plt.subplots()
 ax_corr_botm.table(cellText=bottom_x_rt_corr.values, colLabels=bottom_x_rt_corr.columns, loc='center')
 ax_corr_botm.set_title("Lowest Correlation between Sentiment and Engagement (RT)", size=15)
 ax_corr_botm.axis('off')
-
-# -- Plot top X accounts:
-fig_corr_top, ax_corr_top = plt.subplots()
-ax_corr_top.table(cellText=top_x_rt_corr.values, colLabels=top_x_rt_corr.columns, loc='center')
-ax_corr_top.set_title("Highest Correlation between Sentiment and Engagement (RT)")
-ax_corr_top.axis('off')
-
-top_x_sentiment = top_x_sentiment.set_index('SOURCE')
-top_x_sentiment.plot(kind='bar')

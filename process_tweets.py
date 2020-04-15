@@ -28,7 +28,7 @@ media_tweets = pd.read_csv("/home/tiernan/PycharmProjects/DIA/twitter_mass_media
 media_tweets.drop_duplicates()
 
 # -- Check for NA values:
-#msno.matrix(media_tweets, figsize= (50,30))
+msno.matrix(media_tweets, figsize= (50,30))
 # -- NA columns not important.
 
 # -- Make new column for processed name nad hashtags where possible:
