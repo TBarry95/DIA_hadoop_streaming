@@ -22,7 +22,7 @@ my_username = "ubuntu"
 my_password = None
 cnopts = pysftp.CnOpts()
 cnopts.hostkeys = None
-private_key_pem = "tb_ubuntu_mint.pem"
+private_key_pem = "./tb_ubuntu_mint.pem"
 
 # -- Connect to Ubuntu:
 with pysftp.Connection(host=my_hostname, username=my_username, password=my_password, cnopts=cnopts, private_key=private_key_pem) as sftp:
@@ -33,8 +33,8 @@ with pysftp.Connection(host=my_hostname, username=my_username, password=my_passw
     remote_path_date = '/home/hduser/mr_tests/hdfs_output/date_apr9.csv'
 
     # -- Define local paths for writing:
-    local_path_account = "/home/tiernan/PycharmProjects/DIA/account_apr9.csv"
-    local_path_date = "/home/tiernan/PycharmProjects/DIA/date_apr9.csv"
+    local_path_account = "./account_apr9.csv"
+    local_path_date = "./date_apr9.csv"
 
     df_acc = sftp.get(remote_path_account, local_path_account)
     df_dt = sftp.get(remote_path_date, local_path_date)

@@ -19,8 +19,8 @@ from tabulate import tabulate
 # Extract: Read in data locally (after being called from HDFS in script 7)
 ##########################################################################
 
-hdfs_date_results = pd.read_csv("/home/tiernan/PycharmProjects/DIA/date_apr9.csv")
-hdfs_acc_results = pd.read_csv("/home/tiernan/PycharmProjects/DIA/account_apr9.csv")
+hdfs_date_results = pd.read_csv("./date_apr9.csv")
+hdfs_acc_results = pd.read_csv("./account_apr9.csv")
 
 ##########################################################################
 #. Transform:

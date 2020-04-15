@@ -7,10 +7,12 @@
 #      Scripts 9 and 10 extract data from EC2 machine, and analyse map-reduce results.
 # BY: Tiernan BArry - x19141840
 
-# 1. Get tweets (Comment this out unless wanting to refresh dataset - takes 3 hours)
+# 1. Get tweets
+# -- Comment this out unless wanting to refresh dataset - takes 3 hours
+# -- Recommended: read in twitter_mass_media_data.csv instead to working directory
 # import get_twitter_data
 
-# 2. Preprocess tweets
+# 2. Preprocess tweets and send to cloud
 import process_tweets
 
 # 3.

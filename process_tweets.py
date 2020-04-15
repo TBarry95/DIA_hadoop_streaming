@@ -18,7 +18,7 @@ import missingno as msno
 ##########################################################################
 
 # -- Read in Media tweets:
-media_tweets = pd.read_csv("/home/tiernan/PycharmProjects/DIA/twitter_mass_media_data.csv")
+media_tweets = pd.read_csv("./twitter_mass_media_data.csv")
 
 ##########################################################################
 # Transform:
@@ -36,10 +36,10 @@ media_tweets['PROCESSED_TEXT'] = media_tweets['FULL_TEXT'].map(lambda i: re.sub(
 media_tweets['PROCESSED_HASHTAG'] = media_tweets['HASHTAGS'].map(lambda i: re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)|(RT)|(text)|(indices)|[0-9]+", '', i))
 
 # -- Write out test dataset for testing locally.
-media_tweets[100000:102000].to_csv("/home/tiernan/PycharmProjects/DIA/twitter_media_sample.csv", index= False, header=None)
+# media_tweets[100000:102000].to_csv("./twitter_media_sample.csv", index= False, header=None)
 
 # -- Write out full dataset for running sentiment analysis in HDFS.
-media_tweets.to_csv("/home/tiernan/PycharmProjects/DIA/twitter_media_prod.csv", index= False, header=None)
+media_tweets.to_csv("./twitter_media_prod.csv", index= False, header=None)
 
 ##########################################################################
 

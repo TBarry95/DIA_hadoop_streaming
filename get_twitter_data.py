@@ -37,6 +37,6 @@ df_all_tweets = df_all_tweets.drop_duplicates()
 # Load: Write to project directory:
 ######################################################################################
 
-# df_all_tweets.to_csv("/home/tiernan/PycharmProjects/DIA/twitter_mass_media_data.csv", index= False)
+# df_all_tweets.to_csv("./twitter_mass_media_data.csv", index= False)
 
 # -- Data cleaned and processed for MapReduce job in Script 2: process_tweets.py
