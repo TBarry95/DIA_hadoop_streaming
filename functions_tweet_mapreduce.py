@@ -8,6 +8,8 @@ import pandas as pd
 from wordcloud import WordCloud
 import Twitter_API_Module as twt
 import matplotlib.pyplot as plt
+from matplotlib.pyplot import ion
+ion() # enables interactive mode
 
 # # # # # # # # # # # # #
 # Extract:

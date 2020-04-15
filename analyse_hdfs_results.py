@@ -11,6 +11,8 @@ import pandas as pd
 import functions_tweet_mapreduce as fns
 import matplotlib.pyplot as plt
 from tabulate import tabulate
+from matplotlib.pyplot import ion
+ion() # enables interactive mode
 
 # Installations (if needed):
 # import missingno as msno
