@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-# SCRIPT 4: Mapper script used for gathering sentiment analysis by date. Reducer is reducer_stats_sent_date.py.
+# SCRIPT 5: Mapper script used for gathering sentiment analysis by date. Reducer is reducer_stats_sent_date.py.
 
 # DES: Mapper script which reads in processed tweets from standard input, and applies a sentiment score for each tweet.
 #      Using the date as the key, mapper returns the date, source, fav_count, rt_count, followers, login_device, sentiment from each tweet.

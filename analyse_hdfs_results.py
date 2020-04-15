@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-# SCRIPT 8: Analyse HDFS output, provide visualisations and insights.
+# SCRIPT 10: Analyse HDFS output, provide visualisations and insights.
 
 # DES: Having completed 2 sentiment analyses using hadoop, this script
 #      reads in the results of the analysis to highlight insights, and to visualise results.
@@ -41,7 +41,9 @@ hdfs_acc_results.drop_duplicates()
 #. Analysis 1: Dataset reduced by date: date_apr8.csv
 #. 1. Plot number of tweets by date.
 #. 2. Based on above, plot summary statistics by date.
-#. 3. Correlations?
+#. 3. Plot standard deviation of sentiment last X days:
+#. 4. Plot Daily Favourite:Followers ratio vs RT:Followers ratio by Date:
+#. 4. Plot Daily Favourite:Followers ratio vs RT:Followers ratio by Date:
 ##########################################################
 
 #. 1. Plot number of tweets by TWEETS_PER_DATE
@@ -93,16 +95,15 @@ ax_corr_dt.axis('off')
 
 ##########################################################
 #. Analysis 2: Dataset reduced by account: account_apr8.csv
-#. 1. Tweets by account = 2400
-#. 2. Plotting average sentiment
-#. 3. Get top 10 and bottom 10
+#. -- Tweets by account = 2400
+# 1. Plotting average sentiment
+# 2. Plot Tables of Top X accounts and Bottom X accunts by sentiment:
+# 3. Analyse engagements by account:
 ##########################################################
 
 # 1. Plotting average sentiment
 fns.plot_x_last_x_days_acc(hdfs_acc_results, 'MEAN_SENT', [i for i in range(0,len(hdfs_acc_results))], len(hdfs_acc_results), "Mean Sentiment per Account", "Mean Sentiment")
-
 print(tabulate(hdfs_acc_results, headers=hdfs_acc_results.columns))
-
 
 # 2. Plot Tables of Top X accounts and Bottom X accunts by sentiment:
 # -- Sort by sentiment:
@@ -158,7 +159,6 @@ ax_corr_top.axis('off')
 
 top_x_sentiment = top_x_sentiment.set_index('SOURCE')
 top_x_sentiment.plot(kind='bar')
-
 
 hdfs_acc_results_fav = hdfs_acc_results.sort_values(['CORR_FAV_SENT'])
 

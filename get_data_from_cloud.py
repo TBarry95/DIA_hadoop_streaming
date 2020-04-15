@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-# SCRIPT 7: Get data from Ubuntu EC2 instance (data was manually copied from HDS to Ubuntu EC2), and write to local VM.
+# SCRIPT 9: Get data from Ubuntu EC2 instance (data was manually copied from HDS to Ubuntu EC2), and write to local VM.
 
 # DES: After running HDFS job, data was copied from HDFS to Ubuntu EC2 machine into hduser.
 #      This script accesses Ubuntu EC2 machine by SFTP and writes results to project directory.

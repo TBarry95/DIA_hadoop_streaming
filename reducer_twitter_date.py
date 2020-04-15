@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-# SCRIPT 4: Reducer script for mapper_twitter_date.py.
+# SCRIPT 6: Reducer script for mapper_twitter_date.py.
 
 # DES: Reducer script to find insights regarding sentiment analysis scores for each date.
 #      On a follower weighted basis, as well as a tweets per day basis, finds insights

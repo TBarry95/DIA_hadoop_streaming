@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-# SCRIPT 6: Reducer script for mapper_twitter_account.py.
+# SCRIPT 8: Reducer script for mapper_twitter_account.py.
 
 # DES: Reducer script to find insights regarding sentiment analysis scores for each account.
 #      On a follower weighted basis, as well as a tweets per day basis, finds insights

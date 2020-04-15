@@ -1,4 +1,4 @@
-#!/usr/bin/python
+# !/usr/bin/python
 
 # SCRIPT 2: Process data for MapReduce job.
 
