@@ -1,0 +1,35 @@
+# Hadoop Streaming commands:
+
+# 1. Map only job: Remove stop words and write to HDFS filepath: 
+hadoop jar /usr/local/hadoop/share/hadoop/tools/lib/hadoop-streaming-3.1.3.jar \  
+  -D mapred.reduce.tasks=0  \ 
+  -input    /user/hduser/production/twitter_data_prod.csv \ 
+  -file     /home/hduser/mr_tests/mapper_stop_words.py \ 
+  -mapper  "python3 mapper_stop_words.py"
+  -output  /user/hduser/production/output_clean_data_apr12
+
+hadoop jar /usr/local/hadoop/share/hadoop/tools/lib/hadoop-streaming-3.1.3.jar  -D mapred.reduce.tasks=0  -input /user/hduser/production/twitter_data_prod.csv -file /home/hduser/mr_tests/mapper_stop_words.py -mapper "python3 mapper_stop_words.py" -output /user/hduser/production/output_clean_data_apr12
+
+# 2. Date key: Aggregate sentiment data by date. 
+hadoop jar /usr/local/hadoop/share/hadoop/tools/lib/hadoop-streaming-3.1.3.jar \  
+  -D mapred.reduce.tasks=1 \
+  -input    /user/hduser/production/output_clean_data_apr12/part-00000 \ 
+  -file     /home/hduser/mr_tests/production_scripts/mapper_twitter_date.py \ 
+  -file     /home/hduser/mr_tests/production_scripts/reducer_twitter_date.py \  
+  -mapper  "python3 mapper_twitter_date.py"
+  -reducer "python3 reducer_twitter_date.py"
+  -output  /user/hduser/production/date_apr12
+
+hadoop jar /usr/local/hadoop/share/hadoop/tools/lib/hadoop-streaming-3.1.3.jar -D mapred.reduce.tasks=1 -input /user/hduser/production/output_clean_data_apr12/part-00000 -file /home/hduser/mr_tests/production_scripts/mapper_twitter_date.py -file /home/hduser/mr_tests/production_scripts/reducer_twitter_date.py -mapper "python3 mapper_twitter_date.py" -reducer "python3 reducer_twitter_date.py" -output /user/hduser/production/date_apr12
+
+# 3. Account key: Aggregate sentiment data by date. 
+hadoop jar /usr/local/hadoop/share/hadoop/tools/lib/hadoop-streaming-3.1.3.jar \  
+  -D mapred.reduce.tasks=1 \
+  -input    /user/hduser/production/output_clean_data_apr12/part-00000 \ 
+  -file     /home/hduser/mr_tests/production_scripts/mapper_twitter_account.py \  
+  -file     /home/hduser/mr_tests/production_scripts/reducer_twitter_account.py \ 
+  -mapper  "python3 mapper_media_account.py"
+  -reducer "python3 reducer_stats_sent_account.py"
+  -output  /user/hduser/twitter_sent_prod/account_apr12
+
+hadoop jar /usr/local/hadoop/share/hadoop/tools/lib/hadoop-streaming-3.1.3.jar -D mapred.reduce.tasks=1 -input /user/hduser/production/output_clean_data_apr12/part-00000 -file /home/hduser/mr_tests/production_scripts/mapper_twitter_account.py -file /home/hduser/mr_tests/production_scripts/reducer_twitter_account.py -mapper "python3 mapper_twitter_account.py" -reducer "python3 reducer_twitter_account.py" -output /user/hduser/production/account_apr12
