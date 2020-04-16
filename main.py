@@ -10,7 +10,7 @@
 # 1. Get tweets
 # -- Comment this out unless wanting to refresh dataset - takes 3 hours
 # -- Recommended: read in twitter_mass_media_data.csv instead to working directory
-# import get_twitter_data
+import get_twitter_data
 
 # 2. Preprocess tweets and send to cloud
 import process_tweets

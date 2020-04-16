@@ -25,7 +25,8 @@ twitter_pgs = ["CNN", "BBCWorld", "BBCBreaking", "BBCNews", "ABC", "Independent"
                "BreakingNews", "cnnbrk", "WSJ", "Reuters", "SkyNews", "CBCAlerts"]
 
 # -- Takes 2-3 hours... Test by changing number of pages from 120 to 1 or 2.
-tweets_list = fns.get_tweets_list(twitter_pgs, 120) # 155k + tweets
+#tweets_list = fns.get_tweets_list(twitter_pgs, 120) # 155k + tweets
+tweets_list = fns.get_tweets_list(twitter_pgs, 1) # 155k + tweets
 
 df_all_tweets = fns.tweets_to_df(tweets_list)
 
