@@ -38,6 +38,7 @@ df_all_tweets = df_all_tweets.sort_values(by='DATE_TIME', ascending=0)
 # Load: Write to project directory:
 ######################################################################################
 
+# File of 150k+tweets, do not write over as it will reduce the dataset provided manually.
 # df_all_tweets.to_csv("./twitter_mass_media_data.csv", index= False)
 
 # -- Data cleaned and processed for MapReduce job in Script 2: process_tweets.py
