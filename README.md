@@ -1,4 +1,4 @@
-# Reproducing results generated from map-reduce analysis: 
+# Reproducing Twitter Sentiment Analysis using Hadoop: 
 
 1. Create new Conda environment using env_dia.yml file included in repo:
   - env_dia.yml file outlines all dependencies required to fully reproduce environment. 
@@ -25,7 +25,12 @@
 
 1. The execution of Hadoop Streaming jobs is not automated within the main.py file. 
    The results were last collected on April 12th, and are used for the final report and for 
-   reproducing this analysis. 
-
+   reproducing this analysis. To rerun the Hadoop jobs: 
+   - Login to the Ubuntu remote server using .pem file
+   - Login as hduser (hadoop)
+   - cd /usr/local/hadoop/share/hadoop/tools/lib/ 
+   - Change dates on output files from hadoop_streaming_jobs.txt 
+   - Copy results back to Ubuntu from HDFS and update get_data_from_cloud.py script to correct locations
+   
 2. Hadoop streaming commands are provided in the repo within a txt file. 
 
