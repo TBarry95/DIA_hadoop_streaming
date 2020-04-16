@@ -11,7 +11,7 @@
   - File is provided in zip folder from moodle submission (tb_ubuntu_mint.pem)
   
 3. From terminal, run main.py: 
-  - main file runs all possible scripts. Posible scripts include: 
+  - main.py file runs all possible scripts. Posible scripts include: 
       1. Gathering tweets from tweepy. 
            - full dataset takes 3 hours to run (150k+ tweets)
            - for testing, this only collects 1 page per account and ignores the result.
