@@ -31,7 +31,7 @@ df_all_tweets = fns.tweets_to_df(tweets_list)
 
 df_all_tweets = df_all_tweets.sort_values(by='DATE_TIME', ascending=0)
 
-df_all_tweets = df_all_tweets.drop_duplicates()
+#df_all_tweets = df_all_tweets.drop_duplicates()
 
 ######################################################################################
 # Load: Write to project directory:
