@@ -6,7 +6,7 @@
   - For further information on creating conda environment using .yml file, visit:
      https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html?fbclid=IwAR3tWUCr1qIK4BmHfcQ-uRrkkSEDjiRwREMAIM4089dphzgntg66F-apuU8#creating-an-environment-from-an-environment-yml-file
 
-2. Add private key to working directoy:
+2. Once repository is cloned, add private key to working directoy:
   - Private .pem file must manually be added to working directory.  
   - This connects local machine to remote ubuntu server for put and get sftp requests. 
   - File is provided in zip folder from moodle submission (tb_ubuntu_mint.pem)
