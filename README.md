@@ -2,6 +2,7 @@
 
 1. Create new Conda environment using env_dia.yml file included in repo:
   - env_dia.yml file outlines all dependencies required to fully reproduce environment. 
+  - By using env_dia.yml to create the conda environment, you can avoid having to rerun the code numerous times until everything is  	        installed. 
   - For further information on creating conda environment using .yml file, visit:
      https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html?fbclid=IwAR3tWUCr1qIK4BmHfcQ-uRrkkSEDjiRwREMAIM4089dphzgntg66F-apuU8#creating-an-environment-from-an-environment-yml-file
 
